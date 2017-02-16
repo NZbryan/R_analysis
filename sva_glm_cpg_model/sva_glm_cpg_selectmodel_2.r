@@ -23,9 +23,9 @@ rownames(methy_combat_expr_data) = methy_combat_expr_data$V1
 methy_combat_expr_data = methy_combat_expr_data[,-c(1)]
 # colnames_expr = colnames(methy_combat_expr_data)
 
-# pvalue_hr_05 = subset(pvalue_hr,pvalue_data<0.005)
-# pvalue_hr_05_names = rownames(pvalue_hr_05)
-# methy_combat_expr_data = methy_combat_expr_data[pvalue_hr_05_names,]
+pvalue_hr_05 = subset(pvalue_hr,pvalue_data<0.005)
+pvalue_hr_05_names = rownames(pvalue_hr_05)
+methy_combat_expr_data = methy_combat_expr_data[pvalue_hr_05_names,]
 
 # x,y
 patient_info$SurvObj <- with(patient_info, Surv(survival.month, cencor.status == 1))
@@ -43,7 +43,7 @@ set.seed(2017215)
 cvfit_cox3 = cv.glmnet(x, y, family = "cox",alpha=0.15,nlambda = 150,standardize = F,parallel=TRUE)
 stopImplicitCluster()
 
-plot(cvfit_cox4)
+plot(cvfit_cox3)
 
 # require(doParallel)
 # registerDoParallel(cores=8)
@@ -130,9 +130,7 @@ co_data_addphf_t2 = co_data_addphf[co_data_addphf$Gene.ensGene %in% co_Gene.ensG
 # 169 chr6_126661238_126661239     upstream ENSG00000203760 -0.001440588   1.419661e-03 0.4225360 0.04117087
 # 182     chr6_5261091_5261092         UTR5 ENSG00000214113 -0.030895643   1.991186e-05 0.2983138 0.01509267
 
-### just 4 common genes between RNASeq and cpg
 
-dasdas = read.xlsx('R/R_data/2.xlsx')
 
 
 

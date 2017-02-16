@@ -129,5 +129,4 @@ co_data_addphf_t2 = co_data_addphf[co_data_addphf$Gene.ensGene %in% co_Gene.ensG
 
 
 
-dasdas = read.xlsx('R/R_data/2.xlsx')
 

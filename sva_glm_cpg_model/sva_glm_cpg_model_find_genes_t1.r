@@ -39,6 +39,7 @@ y = patient_info$SurvObj
 #Parallel computing & cv.glmnet
 require(doParallel)
 registerDoParallel(cores=8)
+set.seed(2017215)
 cvfit_cox4 = cv.glmnet(x, y, family = "cox",alpha=0.15,nlambda = 150,standardize = F,parallel=TRUE)
 stopImplicitCluster()
 ## train the model
@@ -50,6 +51,9 @@ a22 = as.matrix(a11)
 a33 = as.data.frame(a22)
 chosen_features = subset(a33,s0!=0)
 chosen_features$index_methy = rownames(chosen_features)
+chosen_features_phf = pvalue_hr[chosen_features$index_methy,]
+chosen_features_phf$beta = chosen_features$s0
+# write.csv(chosen_features_phf,"R/R_data/output/chosen_features_phf005.csv")
 
 ### input cpg_to_genes table
 genes_data2 = read.csv('R/R_data/multianno.txt',stringsAsFactors = FALSE,sep="")
@@ -85,7 +89,7 @@ Gene.ensGene = apply(gene_model_features["features"],1,hclust_name)
 gene_model_features_t2 = cbind(gene_model_features[,1],Gene.ensGene,gene_model_features[,2:ncol(gene_model_features)])
 
 ## co
-co_Gene.ensGene = intersect(co_data_addphf$Gene.ensGene,gene_model_features_t2$Gene.ensGene)
+co_Gene.ensGene = intersect(co_data_addphf$Gene.ensGene,as.character(gene_model_features_t2$Gene.ensGene))
 
 
 gene_model_features_t3 = gene_model_features_t2[gene_model_features_t2$Gene.ensGene %in% co_Gene.ensGene,]
